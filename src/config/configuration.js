@@ -22,7 +22,8 @@ export const options = {
         PORT: argumentos.port,
         MODE: argumentos.mode,
         NODE_ENV: argumentos.env,
-        BASE_DATATYPE: process.env.BASE_DATATYPE
+        BASE_DATATYPE: process.env.BASE_DATATYPE,
+        PRIVATE_KEY: process.env.PRIVATE_KEY
     },
     mongoDB:{
         MONGOURLDB: process.env.MONGOURLBD,

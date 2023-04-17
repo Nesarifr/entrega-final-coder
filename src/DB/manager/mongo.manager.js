@@ -1,6 +1,5 @@
 import {logger} from "../../logs/logger.js";
 
-
 class MongoContainer {
     constructor(model) {
         this.model = model;
@@ -22,31 +21,12 @@ class MongoContainer {
         }
     }
 
-
-    
-    async getCategory(category) {
-        try {
-            let result = await this.model.find({ category: category })
-            const data = JSON.parse(JSON.stringify(result))
-            if (data.length) {
-                return data
-            } else {
-                return { message: `No se encontro objetos con categoria : ${category}  ` }
-            }
-        }
-        catch (error) {
-            logger.error(`Ocurrio un error en la busqueda del objeto con id : ${id} :  ${error}`)
-            throw new Error(`Ocurrio un error en la busqueda del objeto con id : ${id} :  ${error}`)
-        }
-    }
-
     async getAll() {
         try {
             const objects = await this.model.find()
-            if(objects.length){
+            if(!objects.length){
                 return { message: `No se encontro objetos en la base de datos. ` }
             }
-            logger.info(`Se buscan todos los objetos ${objects}`)
             const data = JSON.parse(JSON.stringify(objects))
             return data;
         } catch (error) {

@@ -1,7 +1,7 @@
 import { MongoContainer } from "../../manager/mongo.manager.js";
 import {logger} from "../../../logs/logger.js";
 
-class CarritoDaoMongo extends MongoContainer{
+class CartDaoMongo extends MongoContainer{
     constructor(model){
         super(model);
     }
@@ -65,4 +65,4 @@ class CarritoDaoMongo extends MongoContainer{
 
 }
 
-export {CarritoDaoMongo}
+export {CartDaoMongo}

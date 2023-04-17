@@ -8,6 +8,7 @@ logger.info("se aplica la base de datos "+databaseType)
 async function getApiDao(tipoDB) {
     let DaoProduct;
     let DaoCart;
+    let DaoUser;
     switch (tipoDB) {
         // case "archivos":
         //     const {ProductsDaoArchivos} = await import("./productos/productDaoArchivo.js");
@@ -22,22 +23,22 @@ async function getApiDao(tipoDB) {
         //     ContenedorDaoCarritos = new CarritoDaoSql(optionsSqliteDB,"carrito");
         // break;
         case "mongo":
-            const { ProductDaoMongo } = await import(
-                "./daos/product/product.dao.mongo.js"
-            );
-            const { CarritoDaoMongo } = await import(
-                "./daos/cart/cart.dao.mongo.js"
-            );
-            const { productModel } = await import(
-                "./models/mongoDB/product.model.js"
-            );
-            const { cartModel } = await import(
-                "./models/mongoDB/cart.model.js"
-            );
+            /* ---------------------------- imports dinamicas ---------------------------- */
+            /* ---------------------------------- DAOS ---------------------------------- */
+            const { ProductDaoMongo } = await import("./daos/product/product.dao.mongo.js");
+            const { CartDaoMongo } = await import("./daos/cart/cart.dao.mongo.js");
+            const { UserDaoMongo } = await import("./daos/user/user.dao.mongo.js");
+            /* --------------------------------- models --------------------------------- */
+            const { productModel } = await import("./models/mongoDB/product.model.js");
+            const { cartModel } = await import("./models/mongoDB/cart.model.js");
+            const { userModel } = await import("./models/mongoDB/user.model.js");
+            /* --------------------------- Conexion con mongo -------------------------- */
             const MongoBD =  new MongoClient()
             await MongoBD.connection()
+
             DaoProduct = new ProductDaoMongo(productModel);
-            DaoCart = new CarritoDaoMongo(cartModel);
+            DaoCart = new CartDaoMongo(cartModel);
+            DaoUser = new UserDaoMongo(userModel);
             break;
         // case "firebase":
         //     const {ProductsDaoFirebase} = await import("./productos/productDaoFirebase.js");
@@ -48,8 +49,8 @@ async function getApiDao(tipoDB) {
         default:
             break;
     }
-    return {DaoProduct, DaoCart}
+    return {DaoProduct, DaoCart, DaoUser}
 }
 
-let {DaoProduct, DaoCart} = await getApiDao(databaseType)
-export {DaoProduct, DaoCart}
+let {DaoProduct, DaoCart, DaoUser} = await getApiDao(databaseType)
+export {DaoProduct, DaoCart, DaoUser}
